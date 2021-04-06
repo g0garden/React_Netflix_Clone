@@ -22,16 +22,16 @@ const LocoRow = React.memo((props) => {
       const request = await axios.get(fetchUrl);
       // data structure를 알아보기 위해 console.log(request)을 찍어보기
       // 찍어보고 object의 구조를 파악하면 object > data > results에 내가 원하는 리스트가 있음.
-      // console.log(request.data.results);
-      setMovies(request.data.results);
+      console.log(request.data);
+      setMovies(request.data);
       return request;
     }
     fetchData();
   }, [fetchUrl]);
 
-  return (
+  return ( 
     <React.Fragment>
-      <STText>{sectionTitle}, 섹션</STText>
+      <STText>{sectionTitle}</STText>
       <ImgWrap>
         {/* key값이 없어도 찾기는 하는데, key있으면 더 빠르다!!! */}
         {movies.map((movie) => (
@@ -40,15 +40,18 @@ const LocoRow = React.memo((props) => {
               <Imgdrop
                 Poster
                 key={movie.id}
-                imgPath={`${_baseURL}${movie.backdrop_path}`}
+                imgPath={`${_baseURL}${movie.poster_path}`}
               />
             ) : (
               <Imgdrop
                 key={movie.id}
                 imgPath={`${_baseURL}${movie.backdrop_path}`}
-              />
+              >
+                <span>
+                {movie?.title || movie?.name || movie?.original_name}
+                </span>
+                </Imgdrop>
             )}
-            {movie?.title || movie?.name || movie?.original_name}
           </span>
         ))}
       </ImgWrap>
@@ -86,7 +89,7 @@ const ImgWrap = styled.div`
 `;
 
 const Imgdrop = styled.div`
-  z-index: 999;
+  z-index: 990;
   display: inline-block;
   object-fit: contain;
   background-color: #ffffff80;
@@ -98,6 +101,17 @@ const Imgdrop = styled.div`
   margin-right: 0.25vw;
   border-radius: 0.25rem;
   transition: transform 150ms ease-in-out;
+  span {
+    display: block;
+    z-index: 991;
+    align-items: center;
+    text-shadow: 0px 0px 5px #00000080;
+    z-index: 991;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1vw;
+    text-align: center;
+  }
   :hover {
     transform: scale(1.05);
   }

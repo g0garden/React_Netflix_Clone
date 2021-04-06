@@ -28,18 +28,18 @@ const Header = React.memo((props) => {
   // },[]);
 
   return (
-    <HeaderWrap className="nav"  padding="4px 16px">
-      <Grid  className="nav_logo" width="80px" margin="0px 12px" padding="16px">
-        <img src={netflix} alt="Netflix" width="75" />
+    <HeaderWrap className="nav">
+      <Grid margin="0 0 0 8vh" className="nav_logo" width="80px"  padding="12px 0 12px 0">
+        <img src={netflix} alt="Netflix" width="120" />
       </Grid>
       <Grid is_flex padding="16px">
-        <Text margin="0px 12px" size="0.5rem">홈</Text>
-        <Text margin="0px 12px" size="0.5rem">TV 프로그램</Text>
-        <Text margin="0px 12px" size="0.5rem">영화</Text>
-        <Text margin="0px 12px" size="0.5rem">인기있는콘텐츠</Text>
+        <Text margin="0 0 0 3vw" size="1.0vw">홈</Text>
+        <Text margin="0px 12px" size="1.0vw">TV 프로그램</Text>
+        <Text margin="0px 12px" size="1.0vw">영화</Text>
+        <Text margin="0px 12px" size="1.0vw">인기있는콘텐츠</Text>
       </Grid>
-      <Grid width="30%" padding="10px 8px" border-size="border-box" >
-        <Button className="logoutBtn"isLogout text="로그아웃" _onClick={()=>{
+      <Grid width="10%" className="logoutBtn" padding="12px" border-size="border-box" >
+        <Button  isLogout text="로그아웃" _onClick={()=>{
             console.log("로그아웃!")
             //history.push('../pages/UnloginMain.js');
             }}>
@@ -53,8 +53,10 @@ const HeaderWrap = styled.div`
   height: 50px;
   width: 100vw;
   position: fixed;
-  z-index: 999;
-  opacity: 0.7;
+  z-index: 1500;
+  padding: 6px 16px;
+  font-size: 1.5vw;
+  opacity: 1;
   /*background-color: transparent */
   /* border-bottom: 1px solid grey; */
   display: flex;

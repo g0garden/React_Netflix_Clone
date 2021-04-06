@@ -77,10 +77,11 @@ color: #fff;
   `;
 
 const LogoutBtn = styled.button`
+  display: none;
   border: none;
   padding: 4px;
   margin: 0px 12px;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   outline: 0px;
   border-radius: 4px;
   text-align: center;

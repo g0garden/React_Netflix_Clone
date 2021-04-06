@@ -7,7 +7,7 @@ import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 
 import { Browse, ProfileSelect, Detail } from "../pages";
-import { Header, Trailer, TrailerTitle,Footer,PosterRow } from "../components";
+import { Header, Trailer, TrailerTitle,Footer } from "../components";
 import { Grid, Button } from "../elements";
 
 function App() {
