@@ -29,9 +29,6 @@ const LocoRow = React.memo((props) => {
       }
       // data structure를 알아보기 위해 console.log(request)을 찍어보기
       // 찍어보고 object의 구조를 파악하면 object > data > results에 내가 원하는 리스트가 있음.
-      console.log(request.data);
-      setMovies(request.data);
-      return request;
     }
     fetchData();
   }, []);

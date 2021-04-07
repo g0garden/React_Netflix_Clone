@@ -64,7 +64,6 @@ const Footer = (props) => {
             <span color="grey">문의하기</span>
           </li>
         </FooterInfoLinks>
-        <Button color="grey">서비스코드</Button>
         <NetflixInfo>
           <li>
             넷플릭스서비시스코리아 유한회사 통신판매업신고번호:
