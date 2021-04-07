@@ -29,21 +29,42 @@ const Header = React.memo((props) => {
 
   return (
     <HeaderWrap className="nav">
-      <Grid margin="0 0 0 8vh" className="nav_logo" width="80px"  padding="12px 0 12px 0">
+      <Grid
+        margin="0 0 0 8vh"
+        className="nav_logo"
+        width="80px"
+        padding="12px 0 12px 0"
+      >
         <img src={netflix} alt="Netflix" width="120" />
       </Grid>
       <Grid is_flex padding="16px">
-        <Text margin="0 0 0 3vw" size="1.0vw">홈</Text>
-        <Text margin="0px 12px" size="1.0vw">TV 프로그램</Text>
-        <Text margin="0px 12px" size="1.0vw">영화</Text>
-        <Text margin="0px 12px" size="1.0vw">인기있는콘텐츠</Text>
+        <Text margin="0 0 0 3vw" size="1.0vw">
+          홈
+        </Text>
+        <Text margin="0px 12px" size="1.0vw">
+          TV 프로그램
+        </Text>
+        <Text margin="0px 12px" size="1.0vw">
+          영화
+        </Text>
+        <Text margin="0px 12px" size="1.0vw">
+          인기있는콘텐츠
+        </Text>
       </Grid>
-      <Grid width="10%" className="logoutBtn" padding="12px" border-size="border-box" >
-        <Button  isLogout text="로그아웃" _onClick={()=>{
-            console.log("로그아웃!")
+      <Grid
+        width="10%"
+        className="logoutBtn"
+        padding="12px"
+        border-size="border-box"
+      >
+        <Button
+          isLogout
+          text="로그아웃"
+          _onClick={() => {
+            console.log("로그아웃!");
             //history.push('../pages/UnloginMain.js');
-            }}>
-        </Button>
+          }}
+        ></Button>
       </Grid>
     </HeaderWrap>
   );
@@ -66,7 +87,6 @@ const HeaderWrap = styled.div`
   /* transition-timing-function: ease-in;
   transition: all 0.5s;
   & */
-
 `;
 
 export default Header;

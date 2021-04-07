@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Text, Grid, Button } from "../elements";
 
@@ -7,7 +7,48 @@ import { MdInfoOutline as InfoB } from "react-icons/md";
 
 import { useDispatch } from "react-redux";
 
+import { _axios, _baseURL, _ytbbaseURL } from "../shared/axios";
+import requests from "../shared/request";
+
 const Trailer = (props) => {
+  const [movie, setMovie] = useState([]);
+  const [key, setKey] = useState([]);
+
+  // []가 의미하는 건(blank square bracket), '한번' 로딩되면, 또 로딩하지 않겠다. 한번만 로딩!!!
+  // [movies]라고 하면 새로워질때마다 새로 로딩하겠다임?
+  useEffect(() => {
+    async function fetchData() {
+      const getMovie = await _axios.get(requests.fetchActionMovies);
+      setMovie(
+        getMovie.data[Math.floor(Math.random() * getMovie.data.length - 1)]
+      );
+      // const getKey = await _axios.get(requests.fetchKey);
+      // const request = getMovie.concat(getKey);
+
+      // console.log(getKey);
+
+      // 랜덤으로 선택할거임.
+      // 받아온 데이터 array 중 하나의 데이터 [1]째 / [7] 등등 데이터를 가져올것임.
+
+      return getMovie;
+    }
+    fetchData();
+  }, []);
+
+  console.log(movie);
+  const contentId = movie.contentId;
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const getKey = await _axios.get(`${requests?.fetchKey}/${contentId}`);
+  //     console.log(getKey);
+  //     setKey(getKey.data.key);
+  //     return getKey;
+  //   }
+  //   fetchData();
+  // }, []);
+  // console.log(key);
+
   return (
     <React.Fragment>
       <TrailerWrap>
@@ -16,15 +57,12 @@ const Trailer = (props) => {
             <VignetteTrailer Vtop>
               <VignetteTrailer VBottom>
                 <TrailerPlay
-                  poster="https://i.pinimg.com/originals/42/a2/4a/42a24aad00c0a8e2eee97a37f971a24f.jpg"
+                  poster={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
                   autoPlay
                   muted
                   loop
                 >
-                  <source
-                    src="https://r5---sn-oguelner.googlevideo.com/videoplayback?expire=1617466355&ei=kz9oYJacNab-yQXX5p2ACg&ip=2a0b%3A1580%3Ad96f%3Aeb01%3Aff90%3A4267%3A1da2%3A141b&id=o-AC8p64gphk5k563emo4_tdtqaJY5B0dOAF8uPbBpsJFd&itag=22&source=youtube&requiressl=yes&vprv=1&mime=video%2Fmp4&ns=ipYqsiku6K4Knp4zmkV6Jj8F&cnr=14&ratebypass=yes&dur=122.392&lmt=1521158083666667&fvip=10&fexp=24001373,24007246&c=WEB&n=-j6gUu-FI5remhD64&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Cmime%2Cns%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AOq0QJ8wRgIhAPnUamnNZe5I4ndUXWwWbT4JvlKUrvXfpUgjNjbgIKtIAiEAzPjyYJQqGPELAwTcg6msHFUwBsmfRGshuFriHSRX70Q%3D&redirect_counter=1&cm2rm=sn-qap8x3g-pjol76&req_id=69e97d000bc1a3ee&cms_redirect=yes&mh=m-&mip=203.130.101.107&mm=29&mn=sn-oguelner&ms=rdu&mt=1617444520&mv=m&mvi=5&pl=22&lsparams=mh,mip,mm,mn,ms,mv,mvi,pl&lsig=AG3C_xAwRQIhAKCHaX6ws9imW2cgakAURJ2c0hls0nExXWiCVcbTYxe_AiAeL-ahIeKlXziz6UYTSHnISfGIh25Dm5GJ_7C3fwZpMA%3D%3D"
-                    type="video/mp4"
-                  />
+                  <source src="" type="video/mp4" />
                 </TrailerPlay>
               </VignetteTrailer>
             </VignetteTrailer>
@@ -32,18 +70,13 @@ const Trailer = (props) => {
 
           <TrailerBox left={4} bottom={10}>
             <Grid>
-              <MovieTitle>타이타닉</MovieTitle>
-              <TrailerSynopsis>
-                17세기 엄격한 사회 질서에 숨막혀 하는 미국 상류층 로즈는
-                사교계의 굴레에서 벗어나지 못하는 어머니와 권위적인 재벌 귀족
-                약혼자와 함께 미국으로 향하는 타이타닉호 1등실에 승선한다.
-                부두의 선술집에서 도박으로 운 좋게 타이타닉호의 3등실 티켓을
-                얻은 가난한 화가 잭 역시 아슬아슬하게 배에 승선한다. 첫 눈에
-                로즈에게 반한 잭은 갑판에서 바다로 몸을 던지려 하는 로즈를
-                발견하고 재치 있는 언변과 행동으로 그녀의 생명을 구한다. 이
-                사건을 계기로 1등실의 저녁식사에 초대받게 되고 서로에게 끌리는
-                자신들을 발견한다.
-              </TrailerSynopsis>
+              <MovieTitle>
+                {movie?.title || movie?.name || movie?.original_name}
+                <Avg>
+                  <p>{movie.average}</p>
+                </Avg>
+              </MovieTitle>
+              <TrailerSynopsis>{movie.overview}</TrailerSynopsis>
               <Grid>
                 <Button
                   _onClick={() => {
@@ -51,7 +84,8 @@ const Trailer = (props) => {
                   }}
                   isPlay
                 >
-                  <PlayB size="1.2em" /> <span> 재생</span>
+                  <PlayB size="1.2em" />
+                  <span> 재생</span>
                 </Button>
                 <Button
                   _onClick={() => {
@@ -116,6 +150,26 @@ const MovieTitle = styled.div`
   font-weight: 800;
   letter-spacing: -4px;
   width: 100%;
+`;
+
+const Avg = styled.div`
+  display: inline-block;
+  margin: 1vw;
+  letter-spacing: initial;
+  font-weight: 800;
+  font-size: 1.5vw;
+  opacity: 0.8;
+  z-index: 10;
+  vertical-align: 3vw;
+  height: 1.5vw;
+  padding: 0.5vw 0;
+  border-bottom: 3px solid #fff;
+  p {
+    color: #fff;
+    z-index: 19990;
+    margin: auto;
+    vertical-align: 8vw;
+  }
 `;
 
 const TrailerSynopsis = styled.p`

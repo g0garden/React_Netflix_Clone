@@ -1,16 +1,15 @@
 import React from "react";
 
-import {useDispatch, useSelector} from "react-redux";
-import {Grid, Button, Text} from "../elements";
-import {Trailer, TrailerTitle, LocoRow} from "../components";
+import { useDispatch, useSelector } from "react-redux";
+import { Grid, Button, Text } from "../elements";
+import { Trailer, LocoRow } from "../components";
 
-import requests from '../shared/request';
-
+import requests from "../shared/request";
 
 const Browse = (props) => {
-    const dispatch = useDispatch();
-    return (
-        <React.Fragment>
+  const dispatch = useDispatch();
+  return (
+    <React.Fragment>
       <Grid margin="25vh 0 2vh 8vh">
         <Trailer />
       </Grid>
@@ -24,10 +23,15 @@ const Browse = (props) => {
           sectionTitle="넷플릭스 오리지널"
           fetchUrl={requests.fetchNetflixOriginals}
         /> */}
-        {/* <LocoRow
+        <LocoRow
           sectionTitle="지금 뜨는 콘텐츠"
-          fetchUrl={requests.fetchTrending}
-        /> */}
+          fetchUrlTMDB={requests.fetchTrendingTMDB}
+        />
+        <LocoRow
+          Poster
+          sectionTitle="넷플릭스 오리지널"
+          fetchUrlTMDB={requests.fetchNetflixOriginals}
+        />
         <LocoRow sectionTitle="액션" fetchUrl={requests.fetchActionMovies} />
         <LocoRow sectionTitle="판타지" fetchUrl={requests.fetchFantasyMovies} />
         <LocoRow sectionTitle="코미디" fetchUrl={requests.fetchComedyMovies} />
@@ -48,7 +52,7 @@ const Browse = (props) => {
         <LocoRow sectionTitle="호러" fetchUrl={requests.fetchHorrorMovies} />
       </Grid>
     </React.Fragment>
-    );
+  );
 };
 
 Browse.defaultProps = {};
