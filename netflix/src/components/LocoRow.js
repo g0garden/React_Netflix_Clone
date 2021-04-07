@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import styled from "styled-components";
 import { Text, Grid } from "../elements";
 import netflix from "../shared/netflix.png";
-
+import Modal from "./Modal"
+import Movie from "./Movie";
 import { _axios, axiosTMDB, _baseURL, _ytbbaseURL } from "../shared/axios";
 // import res from "../shared/response";
 
@@ -19,11 +19,11 @@ const LocoRow = React.memo((props) => {
   useEffect(() => {
     async function fetchData() {
       if (fetchUrl) {
-        const request = await _axios.get(fetchUrl);
+        const request = await _axios.get(fetchUrl); 
         setMovies(request.data);
         return request;
       } else {
-        const request = await axiosTMDB.get(fetchUrlTMDB);
+        const request = await axiosTMDB.get(fetchUrlTMDB); 
         setMovies(request.data.results);
         return request;
       }
@@ -33,41 +33,38 @@ const LocoRow = React.memo((props) => {
     fetchData();
   }, []);
 
+  console.log(movies);
+  
   return (
     <React.Fragment>
       <STText>{sectionTitle}</STText>
       <ImgWrap>
-        {/* key값이 없어도 찾기는 하는데, key있으면 더 빠르다!!! */}
         {movies.map((movie) => {
-          if (movies.length > 0) {
-            // console.log(movies);
-            // console.log(movies.length);
-            return (
-              <span>
+          if (movies.length > 0){
+            return(
+              <span> 
                 {movie.poster_path != "" && Poster ? (
-                  <Imgdrop
+                  <React.Fragment>
+                  <Modal
+                    {...movie}
                     Poster
-                    key={movie.id}
-                    imgPath={`${_baseURL}${movie.poster_path}`}
                   />
+                  </React.Fragment>
                 ) : movie.backdrop_path != "" ? (
-                  <Imgdrop
-                    key={movie.id}
-                    imgPath={`${_baseURL}${movie.backdrop_path}`}
-                    href="/"
+                  <Modal
+                    {...movie}
                   >
-                    <textarea readonly="readonly">
+                  <textarea readonly="readonly">
                       {movie?.title || movie?.name || movie?.original_name}
                     </textarea>
-                  </Imgdrop>
+                  </Modal>
                 ) : (
                   ""
                 )}
               </span>
             );
-          } else {
-          }
-        })}
+        
+}})}
       </ImgWrap>
     </React.Fragment>
   );
@@ -122,49 +119,49 @@ const ImgWrap = styled.div`
   }
 `;
 
-const Imgdrop = styled.div`
-  z-index: 990;
-  object-fit: contain;
-  background-color: #ffffff80;
-  background-image: url(${(props) => `${props.imgPath}`});
-  background-size: cover;
-  background-position: center;
-  width: 32vh;
-  height: ${(props) => (props.Poster ? "52vh" : "18vh")};
-  margin-right: 0.3vw;
-  border-radius: 0.25rem;
-  box-shadow: 0 0 4px #00000080;
-  transition: transform 150ms ease-in-out;
-  position: relative;
-  textarea {
-    font-family: Verdana;
-    text-align: center;
-    color: #fff;
-    background-color: transparent;
-    user-select: none;
-    border: none;
-    outline: none;
-    text-overflow: ellipsis;
-    max-width: 100%;
-    text-shadow: 0px 0px 5px #00000090;
-    font-weight: 800;
-    font-size: 1.5vw;
-    margin: 0;
-    position: absolute;
-    bottom: 1%;
-    left: 50%;
-    justify-content: space-between;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, 0);
-    resize: none;
-    ::-webkit-scrollbar {
-      display: none;
-    }
-  }
-  :hover {
-    transform: scale(1.05);
-    z-index: 999;
-  }
-`;
+// const Imgdrop = styled.div`
+//   z-index: 990;
+//   object-fit: contain;
+//   background-color: #ffffff80;
+//   background-image: url(${(props) => `${props.imgPath}`});
+//   background-size: cover;
+//   background-position: center;
+//   width: 32vh;
+//   height: ${(props) => (props.Poster ? "52vh" : "18vh")};
+//   margin-right: 0.3vw;
+//   border-radius: 0.25rem;
+//   box-shadow: 0 0 4px #00000080;
+//   transition: transform 150ms ease-in-out;
+//   position: relative;
+//   textarea {
+//     font-family: Verdana;
+//     text-align: center;
+//     color: #fff;
+//     background-color: transparent;
+//     user-select: none;
+//     border: none;
+//     outline: none;
+//     text-overflow: ellipsis;
+//     max-width: 100%;
+//     text-shadow: 0px 0px 5px #00000090;
+//     font-weight: 800;
+//     font-size: 1.5vw;
+//     margin: 0;
+//     position: absolute;
+//     bottom: 1%;
+//     left: 50%;
+//     justify-content: space-between;
+//     -ms-transform: translate(-50%, -50%);
+//     transform: translate(-50%, 0);
+//     resize: none;
+//     ::-webkit-scrollbar {
+//       display: none;
+//     }
+//   }
+//   :hover {
+//     transform: scale(1.05);
+//     z-index: 999;
+//   }
+// `;
 
 export default LocoRow;

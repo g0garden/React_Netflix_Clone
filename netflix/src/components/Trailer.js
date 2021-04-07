@@ -36,7 +36,7 @@ const Trailer = (props) => {
   }, []);
 
   console.log(movie);
-  const contentId = movie.contentId;
+  //const contentId = movie.contentId;
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -73,7 +73,7 @@ const Trailer = (props) => {
               <MovieTitle>
                 {movie?.title || movie?.name || movie?.original_name}
                 <Avg>
-                  <p>{movie.average}</p>
+                  <p>{movie?.average || movie?.vote_average}</p>
                 </Avg>
               </MovieTitle>
               <TrailerSynopsis>{movie.overview}</TrailerSynopsis>

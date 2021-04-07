@@ -6,7 +6,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 
-import { Browse, ProfileSelect, Detail } from "../pages";
+import { Browse, ProfileSelect } from "../pages";
 import { Header, Footer } from "../components";
 import { Grid } from "../elements";
 
