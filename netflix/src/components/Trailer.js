@@ -53,22 +53,16 @@ const Trailer = (props) => {
     <React.Fragment>
       <TrailerWrap>
         <Grid is_flex>
-          <VignetteTrailer coverDeg>
-            <VignetteTrailer Vtop>
-              <VignetteTrailer VBottom>
-                <TrailerPlay
-                  poster={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
-                  autoPlay
-                  muted
-                  loop
-                >
+          <TrailerPlay
+            poster={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
+            autoPlay
+            muted
+            loop
+            >
                   <source src="" type="video/mp4" />
                 </TrailerPlay>
-              </VignetteTrailer>
-            </VignetteTrailer>
-          </VignetteTrailer>
 
-          <TrailerBox left={4} bottom={10}>
+          <TrailerBox>
             <Grid>
               <MovieTitle>
                 {movie?.title || movie?.name || movie?.original_name}
@@ -115,19 +109,7 @@ const TrailerWrap = styled.div`
   bottom: 0;
 `;
 
-const VignetteTrailer = styled.div`
-  width: 100%;
-  max-height: 100vh;
-  display: flex;
-  background: ${(props) =>
-    props.VBottom
-      ? `linear-gradient(to bottom , rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0) 8%)`
-      : props.Vtop
-      ? `linear-gradient(to top , rgba(0, 0, 0, 0.9) 0, rgba(0, 0, 0, 0) 20%)`
-      : props.coverDeg
-      ? `linear-gradient(77deg , rgba(0, 0, 0, 0.6) 0, rgba(0, 0, 0, 0) 85%)`
-      : ""};
-`;
+
 
 const TrailerPlay = styled.video`
   border: 0;

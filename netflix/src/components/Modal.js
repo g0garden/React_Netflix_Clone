@@ -27,23 +27,40 @@ const Modal = (props) => {
     return (
         <React.Fragment>
             <React.Fragment>
+            {movie.Poster ? (
+            <Imgdrop
+            Poster 
+            onClick={openModal}
+            imgPath={`${_baseURL}${movie.poster_path}`}>
+            </Imgdrop>
+            ) : (
             <Imgdrop 
             onClick={openModal}
             imgPath={`${_baseURL}${movie.backdrop_path}`}>
-            </Imgdrop>
-            <ModalDetail 
-                movie={movie} 
-                open={ modal}
-                close={closeModal}
-                // containerName={(modal ? "show" : "hide")} 
-            >
-            </ModalDetail>
+            <textarea readonly="readonly">
+                {movie?.title || movie?.name || movie?.original_name}
+            </textarea>
+            </Imgdrop>) }
+            <DetailMargin>
+                <ModalDetail 
+                    movie={movie} 
+                    open={ modal}
+                    close={closeModal}
+                    // containerName={(modal ? "show" : "hide")} 
+                >
+                </ModalDetail>
+            </DetailMargin>
             </React.Fragment>
         </React.Fragment>
     )
 
 }
 
+const DetailMargin = styled.div`
+    display:flex;
+    text-align: center;
+    margin : 10px auto;
+`;
 
 const Imgdrop = styled.div`
     z-index: 999;
@@ -59,7 +76,7 @@ const Imgdrop = styled.div`
     box-shadow: 0 0 4px #00000080;
     transition: transform 150ms ease-in-out;
     position: relative;
-textarea {
+    textarea {
     font-family: Verdana;
     text-align: center;
     color: #fff;

@@ -54,9 +54,9 @@ const LocoRow = React.memo((props) => {
                   <Modal
                     {...movie}
                   >
-                  <textarea readonly="readonly">
+                  {/* <textarea readonly="readonly">
                       {movie?.title || movie?.name || movie?.original_name}
-                    </textarea>
+                    </textarea> */}
                   </Modal>
                 ) : (
                   ""
