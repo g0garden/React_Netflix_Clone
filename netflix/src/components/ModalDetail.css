@@ -1,19 +1,33 @@
-modal {
+.modal {
+    width:75%;
     position: fixed;
-    top: 0;
+    top: 25%;
     right: 0;
     bottom: 0;
-    left: 0;
+    left: 15%;
     z-index: 99;
-    background-color: rgba(0, 0, 0, 0.6);
+    margin: 10px auto;
+    
+    /* background-color: darkgrey; */
+    
     color: blueviolet;
+    
 }
 .modal button {
     outline: none;
     cursor: pointer;
     border: 0;
 }
+
+.modal > .close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index:999;
+    background-color: blue;
+}
 .modal > section {
+    display: absolute;
     width: 90%;
     max-width: 450px;
     margin:0 auto;

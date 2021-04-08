@@ -47,9 +47,9 @@ const LocoRow = React.memo((props) => {
                   </React.Fragment>
                 ) : movie.backdrop_path != "" ? (
                   <Modal {...movie}>
-                    <textarea readonly="readonly">
+                    {/* <textarea readonly="readonly">
                       {movie?.title || movie?.name || movie?.original_name}
-                    </textarea>
+                    </textarea> */}
                   </Modal>
                 ) : (
                   ""
