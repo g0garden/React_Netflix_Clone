@@ -6,19 +6,19 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 
-import { Browse, ProfileSelect } from "../pages";
+import { Browse, Login } from "../pages";
 import { Header, Footer } from "../components";
 import { Grid } from "../elements";
 
 function App() {
   return (
     <React.Fragment className="App">
+      <Header />
       <Grid isRoot>
-        <Header />
         <ConnectedRouter history={history}>
-          <Route exact path="/" component={Browse} />
+          <Route exact path="/browse" component={Browse} />
+          <Route exact path="/" component={Login} />
         </ConnectedRouter>
-        {/* <div className="alignCenter"><img src={logo} className="App-logo" alt="logo" /></div> */}
       </Grid>
       <Footer />
     </React.Fragment>

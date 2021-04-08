@@ -9,23 +9,38 @@ const Grid = (props) => {
     is_flex,
     __click,
     bg,
+    bgimg,
     width,
+    height,
     flex,
     margin,
     align,
     zIndex,
+    back_center,
+    hidden,
+    size,
+    opacity,
+    position,
   } = props;
 
   const styles = {
     padding: padding,
     is_flex: is_flex,
     bg: bg ? bg : false,
+    bgimg: bgimg ? bgimg : false,
     width: width,
+    height: height,
     flex: flex,
     margin: margin,
     align: align,
-    zIndex:zIndex,
+    zIndex: zIndex,
+    back_center: back_center,
+    hidden: hidden,
+    size: size,
+    opacity: opacity,
+    position: position,
   };
+
   if (isRoot) {
     return <RootContainer>{children}</RootContainer>;
   }
@@ -52,29 +67,43 @@ Grid.defaultProps = {
   is_flex: false,
   __click: null,
   bg: false,
+  bgimg: false,
   width: "100%",
+  height: false,
   flex: false,
   margin: false,
   align: false,
-  zIndex:false,
+  zIndex: false,
+  back_center: false,
+  hidden: false,
+  opacity: false,
+  position: false,
 };
 
 const GridBox = styled.div`
   width: ${(props) => props.width};
+  height: ${(props) => props.height};
   padding: ${(props) => props.padding};
   margin: ${(props) => props.margin};
   background-color: ${(props) => props.bg};
+  background-image: ${(props) => `url(${props.bgimg})`};
+  background-size: ${(props) => props.size};
+  opacity: ${(props) => props.opacity};
+  position: ${(props) => props.position};
+  ${(props) => (props.back_center ? `background-position: center;` : "")}
+  ${(props) => (props.hidden ? `overflow: hidden;` : "")}
   z-index: ${(props) => props.zIndex};
   ${(props) =>
     props.is_flex
       ? `display:flex; align-items: center; justify-content:flex-start; `
       : ""};
 `;
+
 const RootContainer = styled.div`
   position: relative;
   z-index: 0;
   background-color: black;
-  min-height: 100vh;
+  min-height: 80vh;
   margin: 0;
   box-sizing: border-box;
   overflow-x: hidden;

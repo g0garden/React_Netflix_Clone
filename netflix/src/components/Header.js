@@ -8,11 +8,13 @@ import { Text, Grid, Button } from "../elements";
 import netflix from "../shared/netflix.png";
 
 import { history } from "../redux/configureStore";
-import { actionCreators as userActions } from "../redux/modules/user";
 
 // import { apiKey } from "../../shared/firebase";
 
 const Header = React.memo((props) => {
+  const toHome = () => {
+    history.push("/");
+  };
   // const dispatch = useDispatch();
   // const [show, handleShow] = useState(false);
 
@@ -35,11 +37,18 @@ const Header = React.memo((props) => {
         width="80px"
         padding="12px 0 12px 0"
       >
-        <img src={netflix} alt="Netflix" width="120" />
+        <img
+          src={netflix}
+          alt="Netflix"
+          width="120"
+          onClick={() => {
+            history.push("/browse");
+          }}
+        />
       </Grid>
       <Grid is_flex padding="16px">
         <Text margin="0 0 0 3vw" size="1.0vw">
-          홈
+          <p onClick={toHome}>홈</p>
         </Text>
         <Text margin="0px 12px" size="1.0vw">
           TV 프로그램
@@ -72,7 +81,7 @@ const Header = React.memo((props) => {
 
 const HeaderWrap = styled.div`
   height: 50px;
-  width: 100vw;
+  width: 100%;
   position: fixed;
   z-index: 1500;
   padding: 6px 16px;

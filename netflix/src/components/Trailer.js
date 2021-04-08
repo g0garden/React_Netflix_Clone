@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Text, Grid, Button } from "../elements";
+import { Text, Grid, Button, Vignette } from "../elements";
 
 import { MdPlayArrow as PlayB } from "react-icons/md";
 import { MdInfoOutline as InfoB } from "react-icons/md";
@@ -18,7 +18,7 @@ const Trailer = (props) => {
   // [movies]라고 하면 새로워질때마다 새로 로딩하겠다임?
   useEffect(() => {
     async function fetchData() {
-      const getMovie = await _axios.get(requests.fetchActionMovies);
+      const getMovie = await _axios.get(requests.fetchHorrorMovies);
       setMovie(
         getMovie.data[Math.floor(Math.random() * getMovie.data.length - 1)]
       );
@@ -52,23 +52,22 @@ const Trailer = (props) => {
   return (
     <React.Fragment>
       <TrailerWrap>
-        <Grid is_flex>
-          <VignetteTrailer coverDeg>
-            <VignetteTrailer Vtop>
-              <VignetteTrailer VBottom>
-                <TrailerPlay
-                  poster={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
-                  autoPlay
-                  muted
-                  loop
-                >
-                  <source src="" type="video/mp4" />
-                </TrailerPlay>
-              </VignetteTrailer>
-            </VignetteTrailer>
-          </VignetteTrailer>
+        <Grid is_flex hidden>
+          <Vignette VDeg>
+            <Vignette right=".8">
+              <Vignette left=".8">
+                <Vignette bottom=".8">
+                  <Vignette top=".8">
+                    <TrailerPlay
+                      poster={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
+                    ></TrailerPlay>
+                  </Vignette>
+                </Vignette>
+              </Vignette>
+            </Vignette>
+          </Vignette>
 
-          <TrailerBox left={4} bottom={10}>
+          <TrailerBox>
             <Grid>
               <MovieTitle>
                 {movie?.title || movie?.name || movie?.original_name}
@@ -99,6 +98,15 @@ const Trailer = (props) => {
               </Grid>
             </Grid>
           </TrailerBox>
+          {movie.adult === "False" ? (
+            <Adult>
+              <div>일반</div>
+            </Adult>
+          ) : (
+            <Adult adult>
+              <div>18</div>
+            </Adult>
+          )}
         </Grid>
       </TrailerWrap>
     </React.Fragment>
@@ -115,25 +123,25 @@ const TrailerWrap = styled.div`
   bottom: 0;
 `;
 
-const VignetteTrailer = styled.div`
-  width: 100%;
-  max-height: 100vh;
-  display: flex;
-  background: ${(props) =>
-    props.VBottom
-      ? `linear-gradient(to bottom , rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0) 8%)`
-      : props.Vtop
-      ? `linear-gradient(to top , rgba(0, 0, 0, 0.9) 0, rgba(0, 0, 0, 0) 20%)`
-      : props.coverDeg
-      ? `linear-gradient(77deg , rgba(0, 0, 0, 0.6) 0, rgba(0, 0, 0, 0) 85%)`
-      : ""};
-`;
-
 const TrailerPlay = styled.video`
   border: 0;
   width: 100%;
   object-fit: cover;
   z-index: -1;
+  overflow: hidden;
+  animation: scale 4s infinite;
+  animation-direction: alternate;
+  size: scale(1.2);
+  @keyframes scale {
+    0% {
+      transform: scale(2);
+      transform: translate(-2%, 2%);
+    }
+    100% {
+      transform: scale(2);
+      transform: translate(2%, -2%);
+    }
+  }
 `;
 
 const TrailerBox = styled.div`
@@ -187,6 +195,31 @@ const TrailerSynopsis = styled.p`
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   user-select: none;
+`;
+
+const Adult = styled.div`
+  width: 5rem;
+  position: absolute;
+  top: 60rem;
+  right: 0;
+  background-color: #6d6d6e66;
+  color: white;
+  border-left: 3px solid white;
+  display: flex;
+  div {
+    ${(props) =>
+      props.adult
+        ? "background-color: red;"
+        : "background: linear-gradient(to right, green , yellowgreen);"}
+    font-size: 1rem;
+    font-weight: 900;
+    text-shadow: 0 0 2px #6d6d6e66;
+    user-select: none;
+    display: inline-block;
+    padding: 2px;
+    border-radius: 2px;
+    margin: 3px 2px;
+  }
 `;
 
 export default Trailer;

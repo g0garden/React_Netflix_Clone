@@ -87,7 +87,7 @@ const Footer = (props) => {
 export default Footer;
 
 const FooterWrap = styled.div`
-  width: 100vw;
+  width: 100%;
   margin: 0 auto;
   color: grey;
   background-color: black;
