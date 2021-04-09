@@ -49,7 +49,7 @@ const Login = (props) => {
             </h6>
             <Button
               _onClick={() => {
-                window.alert("오늘만 무료로 이용해세요＼（〇_ｏ）／");
+                window.alert("오늘만 무료로 이용해보세요＼（〇_ｏ）／");
                 if (true) {
                   history.push("/browse");
                 }

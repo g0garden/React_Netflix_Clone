@@ -2,16 +2,17 @@ import React from "react";
 import styled from "styled-components";
 
 const Vignette = (props) => {
-  const { bottom, top, left, right, VDeg, children } = props;
+  const { bottom, bottomColor, top, left, right, deg, children } = props;
   const styles = {
     bottom: bottom,
+    bottomColor: bottomColor,
     top: top,
     left: left,
     right: right,
-    VDeg: VDeg,
+    deg: deg,
   };
 
-  return <VignetteModi {...styles}>{children}</VignetteModi>;
+  return <V {...styles}>{children}</V>;
 };
 
 Vignette.defaultProps = {
@@ -20,26 +21,26 @@ Vignette.defaultProps = {
   top: false,
   left: false,
   right: false,
-  VDeg: false,
+  deg: false,
+  bottomColor: "rgba(0, 0, 0, 0)",
 };
 
-const VignetteModi = styled.div`
+const V = styled.div`
   padding: 0;
   margin: 0;
   width: 100%;
   max-height: 100vh;
-  display: flex;
   background: ${(props) =>
     props.top
       ? `linear-gradient(to bottom , rgba(0, 0, 0, ${props.top}) 0, rgba(0, 0, 0, 0) 20%)`
       : props.bottom
-      ? `linear-gradient(to top , rgba(0, 0, 0, ${props.bottom}) 0, rgba(0, 0, 0, 0) 20%)`
+      ? `linear-gradient(to top , rgba(0, 0, 0, ${props.bottom}) 0, ${props.bottomColor} 20%)`
       : props.right
       ? `linear-gradient(to left , rgba(0, 0, 0, ${props.right}) 0, rgba(0, 0, 0, 0) 20%)`
       : props.left
       ? `linear-gradient(to right , rgba(0, 0, 0, 10) 0, rgba(0, 0, 0, 0) 20%)`
-      : props.VDeg
-      ? `linear-gradient(77deg , rgba(0, 0, 0, ${props.VDeg}), rgba(0, 0, 0, 0) 85%)`
+      : props.deg
+      ? `linear-gradient(77deg , rgba(0, 0, 0, ${props.deg}), rgba(0, 0, 0, 0) 85%)`
       : ""};
 `;
 export default Vignette;

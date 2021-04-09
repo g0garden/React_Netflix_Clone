@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import "./Header.css";
 
 import styled from "styled-components";
@@ -9,25 +8,27 @@ import netflix from "../shared/netflix.png";
 
 import { history } from "../redux/configureStore";
 
-// import { apiKey } from "../../shared/firebase";
-
 const Header = React.memo((props) => {
-  const toHome = () => {
-    history.push("/");
-  };
   // const dispatch = useDispatch();
   // const [show, handleShow] = useState(false);
 
-  // useEffect{() => {
-  //   window.addEventListener("scroll", () => {
-  //     if(window.scrollY > 100) {
-  //       handleShow(true);
-  //     }else handleShow(false);
-  //   });
-  //   return () => {
-  //     window.removeEventListener("scroll");
-  //   };
-  // },[]);
+  const headerChange = () => {
+    const navbox = document.querySelector(".nav");
+
+    if (window.scrollY > 105) {
+      navbox.style.position = "fixed";
+      navbox.style.zIndex = "1500";
+      navbox.style.backgroundColor = "black";
+    } else {
+      navbox.style.backgroundColor = "transparent";
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", headerChange);
+
+    return () => window.removeEventListener("scroll", headerChange);
+  }, []);
 
   return (
     <HeaderWrap className="nav">
@@ -40,25 +41,24 @@ const Header = React.memo((props) => {
         <img
           src={netflix}
           alt="Netflix"
-          width="120"
+          width="100"
           onClick={() => {
             history.push("/browse");
           }}
         />
       </Grid>
       <Grid is_flex padding="16px">
-        <Text margin="0 0 0 3vw" size="1.0vw">
-          <p onClick={toHome}>홈</p>
+        <Text
+          margin="0 12px 0 2vw"
+          _onClick={() => {
+            history.push("/");
+          }}
+        >
+          홈
         </Text>
-        <Text margin="0px 12px" size="1.0vw">
-          TV 프로그램
-        </Text>
-        <Text margin="0px 12px" size="1.0vw">
-          영화
-        </Text>
-        <Text margin="0px 12px" size="1.0vw">
-          인기있는콘텐츠
-        </Text>
+        <Text margin="0 12px">TV 프로그램</Text>
+        <Text margin="0 12px">영화</Text>
+        <Text margin="0 12px">인기 있는 콘텐츠</Text>
       </Grid>
       <Grid
         width="10%"
@@ -84,18 +84,13 @@ const HeaderWrap = styled.div`
   width: 100%;
   position: fixed;
   z-index: 1500;
-  padding: 6px 16px;
-  font-size: 1.5vw;
-  opacity: 1;
-  /*background-color: transparent */
-  /* border-bottom: 1px solid grey; */
+  padding: 10px;
   display: flex;
   flex-direction: row;
 
   //Animation
-  /* transition-timing-function: ease-in;
+  transition-timing-function: ease-in-out;
   transition: all 0.5s;
-  & */
 `;
 
 export default Header;

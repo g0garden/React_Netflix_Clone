@@ -15,6 +15,7 @@ const Button = (props) => {
     _onClick,
     children,
   } = props;
+
   const styles = {
     bg: bg,
     bgopacity: bgopacity,
@@ -70,15 +71,16 @@ Button.defaultProps = {
 };
 
 const Btn = styled.button`
-  border: none;
-  padding: 1.5vh 3vw;
-  font-size: 1rem;
+  z-index: 500;
+  cursor: pointer;
+  padding: 0.5em 1.6em;
+  margin-right: 0.5em;
+  font-size: 1.25vw;
   font-weight: 700;
   outline: 0px;
+  border: none;
   border-radius: 4px;
   text-align: center;
-  cursor: pointer;
-  margin-right: 1vw;
   background-color: ${(props) => (props.bg ? props.bg : "")};
   span {
     vertical-align: 0.2em;

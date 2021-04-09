@@ -1,6 +1,5 @@
-// import logo from "./logo.svg";
-// import "./App.css";
 import React from "react";
+import styled from "styled-components";
 
 import { BrowserRouter, Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
@@ -12,7 +11,7 @@ import { Grid } from "../elements";
 
 function App() {
   return (
-    <React.Fragment className="App">
+    <AppGlobal>
       <Header />
       <Grid isRoot>
         <ConnectedRouter history={history}>
@@ -21,8 +20,12 @@ function App() {
         </ConnectedRouter>
       </Grid>
       <Footer />
-    </React.Fragment>
+    </AppGlobal>
   );
 }
+
+const AppGlobal = styled.div`
+  ${(props) => (props?.onClick || props?._onClick ? "cursor:pointer;" : "")}
+`;
 
 export default App;

@@ -21,6 +21,7 @@ const Grid = (props) => {
     size,
     opacity,
     position,
+    column,
   } = props;
 
   const styles = {
@@ -39,6 +40,7 @@ const Grid = (props) => {
     size: size,
     opacity: opacity,
     position: position,
+    column: column,
   };
 
   if (isRoot) {
@@ -90,13 +92,15 @@ const GridBox = styled.div`
   background-size: ${(props) => props.size};
   opacity: ${(props) => props.opacity};
   position: ${(props) => props.position};
+  z-index: ${(props) => props.zIndex};
   ${(props) => (props.back_center ? `background-position: center;` : "")}
   ${(props) => (props.hidden ? `overflow: hidden;` : "")}
-  z-index: ${(props) => props.zIndex};
   ${(props) =>
     props.is_flex
       ? `display:flex; align-items: center; justify-content:flex-start; `
       : ""};
+  ${(props) =>
+    props.column ? `flex-direction: column;` : `flex-direction: row;`}
 `;
 
 const RootContainer = styled.div`

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Text, Grid, Button, Vignette } from "../elements";
+import { Grid, Button, Vignette } from "../elements";
 
 import { MdPlayArrow as PlayB } from "react-icons/md";
-import { MdInfoOutline as InfoB } from "react-icons/md";
-
-import { useDispatch } from "react-redux";
 
 import { _axios, _baseURL, _ytbbaseURL } from "../shared/axios";
 import requests from "../shared/request";
+import ModalDetail from "./ModalDetail";
+import Modal from "./Modal";
 
 const Trailer = (props) => {
   const [movie, setMovie] = useState([]);
@@ -18,7 +17,7 @@ const Trailer = (props) => {
   // [movies]라고 하면 새로워질때마다 새로 로딩하겠다임?
   useEffect(() => {
     async function fetchData() {
-      const getMovie = await _axios.get(requests.fetchHorrorMovies);
+      const getMovie = await _axios.get(requests.fetchActionMovies);
       setMovie(
         getMovie.data[Math.floor(Math.random() * getMovie.data.length - 1)]
       );
@@ -35,7 +34,7 @@ const Trailer = (props) => {
     fetchData();
   }, []);
 
-  console.log(movie);
+  //console.log(movie);
   //const contentId = movie.contentId;
 
   // useEffect(() => {
@@ -49,11 +48,21 @@ const Trailer = (props) => {
   // }, []);
   // console.log(key);
 
+  const [modal, setModal] = useState(false);
+
+  const openModal = () => {
+    setModal(true);
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
+
   return (
     <React.Fragment>
       <TrailerWrap>
         <Grid is_flex hidden>
-          <Vignette VDeg>
+          <Vignette deg>
             <Vignette right=".8">
               <Vignette left=".8">
                 <Vignette bottom=".8">
@@ -75,7 +84,7 @@ const Trailer = (props) => {
                   <p>{movie?.average || movie?.vote_average}</p>
                 </Avg>
               </MovieTitle>
-              <TrailerSynopsis>{movie.overview}</TrailerSynopsis>
+              <TrailerSynopsis>{movie?.overview}</TrailerSynopsis>
               <Grid>
                 <Button
                   _onClick={() => {
@@ -86,15 +95,7 @@ const Trailer = (props) => {
                   <PlayB size="1.2em" />
                   <span> 재생</span>
                 </Button>
-                <Button
-                  _onClick={() => {
-                    window.alert("잘 작동!");
-                  }}
-                  isInfo
-                >
-                  <InfoB size="1.2em" />
-                  <span> 상세 정보</span>
-                </Button>
+                <Modal {...movie} isButton />
               </Grid>
             </Grid>
           </TrailerBox>
@@ -102,10 +103,12 @@ const Trailer = (props) => {
             <Adult>
               <div>일반</div>
             </Adult>
-          ) : (
+          ) : movie.adult === "True" ? (
             <Adult adult>
               <div>18</div>
             </Adult>
+          ) : (
+            ""
           )}
         </Grid>
       </TrailerWrap>
@@ -149,11 +152,11 @@ const TrailerBox = styled.div`
   color: #fff;
   position: absolute;
   padding: 0 0 0 8vh;
-  -webkit-transform-origin: bottom left;
 `;
 
 const MovieTitle = styled.div`
-  /* background-size: cover; */
+  text-shadow: 0 0 3rem #30303080;
+  mix-blend-mode: hard-light;
   font-size: 5vw;
   font-weight: 800;
   letter-spacing: -4px;
@@ -167,7 +170,6 @@ const Avg = styled.div`
   font-weight: 800;
   font-size: 1.5vw;
   opacity: 0.8;
-  z-index: 10;
   vertical-align: 3vw;
   height: 1.5vw;
   padding: 0.5vw 0;
@@ -198,27 +200,28 @@ const TrailerSynopsis = styled.p`
 `;
 
 const Adult = styled.div`
-  width: 5rem;
+  width: 8vw;
   position: absolute;
-  top: 60rem;
+  top: 40rem;
   right: 0;
-  background-color: #6d6d6e66;
+  background-color: #00000066;
   color: white;
-  border-left: 3px solid white;
+  border-left: 3px solid #ffffff;
   display: flex;
   div {
     ${(props) =>
       props.adult
         ? "background-color: red;"
         : "background: linear-gradient(to right, green , yellowgreen);"}
-    font-size: 1rem;
+    font-size: 1.5vw;
     font-weight: 900;
     text-shadow: 0 0 2px #6d6d6e66;
     user-select: none;
     display: inline-block;
-    padding: 2px;
-    border-radius: 2px;
-    margin: 3px 2px;
+    padding: 5px;
+    border-radius: 4px;
+    margin: 5px;
+    letter-spacing: -2px;
   }
 `;
 

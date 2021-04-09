@@ -13,7 +13,7 @@ const Browse = (props) => {
       <Grid margin="25vh 0 2vh 8vh">
         <Trailer />
       </Grid>
-      <Grid margin="50vh 0 2vh 8vh" zIndex="999">
+      <Grid margin="50vh 0 2vh 8vh" zIndex="500">
         <LocoRow
           sectionTitle="지금 뜨는 콘텐츠"
           fetchUrlTMDB={requests.fetchTrendingTMDB}

@@ -8,10 +8,10 @@ export const _ytbbaseURL = "https://www.youtube.com/watch?v=";
 export const _axios = axios.create({
   baseURL: "http://localhost:8080/",
 });
+// http://13.124.57.131:8080/
 
 export const axiosTMDB = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
 });
-// 13.124.57.131
 
 // export default instance;

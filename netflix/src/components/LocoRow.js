@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { Text, Grid } from "../elements";
 
 import Modal from "./Modal";
-import Movie from "./Movie";
 import { _axios, axiosTMDB, _baseURL, _ytbbaseURL } from "../shared/axios";
 
 const LocoRow = React.memo((props) => {
@@ -18,11 +15,14 @@ const LocoRow = React.memo((props) => {
     async function fetchData() {
       if (fetchUrl) {
         const request = await _axios.get(fetchUrl);
-        setMovies(request.data);
+        setMovies(request.data.slice(0, 10));
+        // setMovie(
+        //   request.data[Math.floor(Math.random() * request.data.length - 1)]
+        // );
         return request;
       } else {
         const request = await axiosTMDB.get(fetchUrlTMDB);
-        setMovies(request.data.results);
+        setMovies(request.data.results.slice(0, 10));
         return request;
       }
       // data structure를 알아보기 위해 console.log(request)을 찍어보기
@@ -31,6 +31,7 @@ const LocoRow = React.memo((props) => {
     fetchData();
   }, []);
 
+  // const movie;
   console.log(movies);
 
   return (
@@ -42,15 +43,9 @@ const LocoRow = React.memo((props) => {
             return (
               <span>
                 {movie.poster_path != "" && Poster ? (
-                  <React.Fragment>
-                    <Modal {...movie} Poster />
-                  </React.Fragment>
+                  <Modal {...movie} Poster isRow />
                 ) : movie.backdrop_path != "" ? (
-                  <Modal {...movie}>
-                    {/* <textarea readonly="readonly">
-                      {movie?.title || movie?.name || movie?.original_name}
-                    </textarea> */}
-                  </Modal>
+                  <Modal {...movie} isRow />
                 ) : (
                   ""
                 )}
@@ -64,13 +59,8 @@ const LocoRow = React.memo((props) => {
 });
 
 LocoRow.defaultProps = {
-  sectionTitle: "여기는 섹션별 제목",
-  backdropPath: false,
+  sectionTitle: "넷플릭스 섹션 제목",
 };
-
-const RowWrap = styled.div`
-  position: absolute;
-`;
 
 const STText = styled.span`
   color: #fff;
@@ -97,15 +87,15 @@ const ImgWrap = styled.div`
     width: 5px;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: #2f3542;
+    background: #ff000080;
     border-radius: 10px;
     background-clip: padding-box;
-    border: 3px solid transparent;
+    border: 5px solid transparent;
   }
   ::-webkit-scrollbar-track {
-    background-color: grey;
+    background-color: transparent;
     border-radius: 10px;
-    box-shadow: inset 0px 0px 5px white;
+    /* box-shadow: inset 0px 0px 6px #ff000080; */
   }
 `;
 
