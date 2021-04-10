@@ -1,6 +1,7 @@
 import axios from "axios";
 
 //이미지포함 불러오는 baseurl
+//스프링db에 없는 데이터는 TMDB에서 가져오기 
 export const _baseURL = "https://image.tmdb.org/t/p/w500/";
 export const _ytbbaseURL = "https://www.youtube.com/watch?v=";
 
@@ -14,4 +15,3 @@ export const axiosTMDB = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
 });
 
-// export default instance;
