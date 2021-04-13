@@ -50,7 +50,7 @@ const Modal = (props) => {
             onClick={openModal}
             imgPath={`${_baseURL}${movie.backdrop_path}`}
           >
-            <textarea readonly="readonly">
+            <textarea readOnly="readOnly">
               {movie?.title || movie?.name || movie?.original_name}
             </textarea>
           </Imgdrop>
@@ -68,26 +68,22 @@ const Modal = (props) => {
   //모달클릭시 모달디테일이 오픈되고, 모달디테일이 클릭시 모달이 close
 };
 
-const DetailMargin = styled.div`
-  display: flex;
-  text-align: center;
-  margin: 10px auto;
-`;
-
 const Imgdrop = styled.div`
-  object-fit: contain;
+  /* object-fit: contain; */
   background-color: #30303080;
   background-image: url(${(props) => `${props.imgPath}`});
   background-size: cover;
   background-position: center;
-  width: 30vh;
-  height: ${(props) => (props.Poster ? "48vh" : "17vh")};
-  margin-right: 4px;
+  width: 30vmin;
+  height: ${(props) => (props.Poster ? "48vmin" : "17vmin")};
+  /* 썸네일간 고정 간격 */
+  margin-right: 3px;
   border-radius: 0.25rem;
   box-shadow: 0 0 4px #00000080;
   transition: transform 150ms ease-in-out;
   position: relative;
 
+  /* 영화 제목 */
   textarea {
     font-family: Verdana;
     text-align: center;
@@ -100,7 +96,7 @@ const Imgdrop = styled.div`
     max-width: 100%;
     text-shadow: 0px 0px 5px #00000090;
     font-weight: 800;
-    font-size: 1.5em;
+    font-size: 2.5vmin;
     margin: 0;
     position: absolute;
     bottom: 1%;
@@ -115,6 +111,7 @@ const Imgdrop = styled.div`
   }
   :hover {
     transform: scale(1.05);
+    /* hover했을때 옆 썸네일에 묻히지 않으려면 z-index 설정 해줘야함 */
     z-index: 500;
     display: absolute;
   }

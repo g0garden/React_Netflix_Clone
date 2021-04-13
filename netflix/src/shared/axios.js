@@ -7,7 +7,7 @@ export const _ytbbaseURL = "https://www.youtube.com/watch?v=";
 
 // 영화 db요청 만들기 위한 base url
 export const _axios = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: "http://13.124.57.131:8080/",
 });
 // http://13.124.57.131:8080/
 

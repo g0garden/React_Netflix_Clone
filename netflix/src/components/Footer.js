@@ -3,8 +3,6 @@ import styled from "styled-components";
 
 import { ImFacebook2, ImInstagram, ImTwitter, ImYoutube } from "react-icons/im";
 
-import { Button, Grid } from "../elements";
-
 const Footer = (props) => {
   return (
     <FooterWrap>

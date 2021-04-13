@@ -1,40 +1,46 @@
+/* 컴포넌트로 쓰이는 애들은 모두 대문자로 시작할 것. */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Grid, Button, Vignette } from "../elements";
+import { Grid, Button } from "../elements";
 
 import { MdPlayArrow as PlayB } from "react-icons/md";
 
 import { _axios, _baseURL, _ytbbaseURL } from "../shared/axios";
-import requests from "../shared/request";
-import ModalDetail from "./ModalDetail";
+import { request } from "../shared/request";
 import Modal from "./Modal";
 
 const Trailer = (props) => {
   const [movie, setMovie] = useState([]);
   const [key, setKey] = useState([]);
 
+  const requests = request[1].splice(5, 1);
+  console.log(requests);
+
   // []가 의미하는 건(blank square bracket), '한번' 로딩되면, 또 로딩하지 않겠다. 한번만 로딩!!!
   // [movies]라고 하면 새로워질때마다 새로 로딩하겠다임?
   useEffect(() => {
     async function fetchData() {
-      const getMovie = await _axios.get(requests.fetchActionMovies);
+      /* request에서 설정한 애들 중 랜덤으로 섹션 선택 */
+      /* 문제: 스릴러(5), 호러(8) 같은 혐오감 드는 사진 포함된 열은 배제시켜야함 */
+      /* 해결 : .remove(해당 열) */
+      const getMovie = await _axios.get(
+        requests[Math.floor(Math.random() * requests.length - 1)].url
+      );
+      /* 랜덤 섹션 중 랜덤 영화 1개 선택 */
       setMovie(
         getMovie.data[Math.floor(Math.random() * getMovie.data.length - 1)]
       );
+
       // const getKey = await _axios.get(requests.fetchKey);
       // const request = getMovie.concat(getKey);
 
       // console.log(getKey);
-
-      // 랜덤으로 선택할거임.
-      // 받아온 데이터 array 중 하나의 데이터 [1]째 / [7] 등등 데이터를 가져올것임.
-
       return getMovie;
     }
     fetchData();
   }, []);
 
-  //console.log(movie);
+  console.log(movie);
   //const contentId = movie.contentId;
 
   // useEffect(() => {
@@ -48,132 +54,144 @@ const Trailer = (props) => {
   // }, []);
   // console.log(key);
 
-  const [modal, setModal] = useState(false);
-
-  const openModal = () => {
-    setModal(true);
-  };
-
-  const closeModal = () => {
-    setModal(false);
-  };
+  // $(document).ready(function () {});
 
   return (
     <React.Fragment>
       <TrailerWrap>
-        <Grid is_flex hidden>
-          <Vignette deg>
-            <Vignette right=".8">
-              <Vignette left=".8">
-                <Vignette bottom=".8">
-                  <Vignette top=".8">
-                    <TrailerPlay
-                      poster={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
-                    ></TrailerPlay>
-                  </Vignette>
-                </Vignette>
-              </Vignette>
-            </Vignette>
-          </Vignette>
-
-          <TrailerBox>
-            <Grid>
-              <MovieTitle>
-                {movie?.title || movie?.name || movie?.original_name}
-                <Avg>
-                  <p>{movie?.average || movie?.vote_average}</p>
-                </Avg>
-              </MovieTitle>
-              <TrailerSynopsis>{movie?.overview}</TrailerSynopsis>
-              <Grid>
-                <Button
-                  _onClick={() => {
-                    window.alert("잘 작동!");
-                  }}
-                  isPlay
-                >
-                  <PlayB size="1.2em" />
-                  <span> 재생</span>
-                </Button>
-                <Modal {...movie} isButton />
-              </Grid>
-            </Grid>
-          </TrailerBox>
-          {movie.adult === "False" ? (
-            <Adult>
-              <div>일반</div>
-            </Adult>
-          ) : movie.adult === "True" ? (
-            <Adult adult>
-              <div>18</div>
-            </Adult>
-          ) : (
-            ""
-          )}
+        <TrailerPlay
+          poster={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
+        ></TrailerPlay>
+        <Grid>
+          <FiveSecsLater>
+            <MovieTitle>
+              {/* /* 먼저 물어봐주는 이유는, 데이터 로딩 중에 undefined가 뜨기 때문*/}
+              {movie?.title || movie?.name || movie?.original_name
+                ? movie?.title || movie?.name || movie?.original_name
+                : "Please wait"}
+              <Avg>
+                <p>
+                  {movie?.average || movie?.vote_average
+                    ? `${movie?.average || movie?.vote_average}점`
+                    : "Please wait"}
+                </p>
+              </Avg>
+            </MovieTitle>
+            <TrailerSynopsis>{movie?.overview}</TrailerSynopsis>
+          </FiveSecsLater>
+          <Grid is_flex>
+            <Button
+              _onClick={() => {
+                window.alert("잘 작동!");
+              }}
+              isPlay
+            >
+              <PlayB size="1.2em" />
+              <span> 재생</span>
+            </Button>
+            <Modal {...movie} isButton />
+            {/* ReferenceError: Adult is not defined 오류가 떴던 이유 -> 데이터 중에 adult 키(?)가 없는 애들이 있다. */}
+            {movie.adult && movie.adult === "False" ? (
+              <IsAdult>
+                <div>일반</div>
+              </IsAdult>
+            ) : movie.adult === "True" ? (
+              <IsAdult adult>
+                <div>18</div>
+              </IsAdult>
+            ) : (
+              ""
+            )}
+          </Grid>
         </Grid>
       </TrailerWrap>
     </React.Fragment>
   );
 };
-
 Trailer.defaultProps = {};
 
 const TrailerWrap = styled.div`
+  /* border: 5px solid red; */
+  padding-top: 10%;
+  margin-bottom: 3%;
+  width: 100%;
+`;
+
+const TrailerPlay = styled.video`
+  /* 배경으로 깔기 */
   position: absolute;
   left: 0;
   top: 0;
   right: 0;
-  bottom: 0;
-`;
-
-const TrailerPlay = styled.video`
-  border: 0;
-  width: 100%;
-  object-fit: cover;
   z-index: -1;
+  width: 100%;
+  min-height: 20vh;
+  max-height: 75vh;
+  box-shadow: inset 0 0 3px black;
+
+  border: 0;
+  /* 지정 높이 넘치지 않기 */
+  object-fit: cover;
   overflow: hidden;
-  animation: scale 4s infinite;
+
+  /* animation for Trailer backdrop_img */
+  /* 원래의도 1. 비디오 소스를 넣는다. :video html tag 따로 있음 */
+  /* 문제1 : source를 지정해야함 ex) mp4 or webm */
+  /* 문제2 : 유투브->mp4전환 해결 X */
+  /* 대안찾기 2 : 유투브 embed */
+  /* 문제 : 시간상 embed 아직 해결 x */
+  /* 대안 3 : backdrop_img에 애니메이션을 넣어 역동적으로.! */
+  animation: movingTrailer ease-in-out 4s infinite;
   animation-direction: alternate;
   size: scale(1.2);
-  @keyframes scale {
+  /* 애니메이션 이름은 다르게해야함. 같게 하면 같은걸 가져옴.*/
+  @keyframes movingTrailer {
     0% {
-      transform: scale(2);
-      transform: translate(-2%, 2%);
+      /* !!!!!!!! 두줄로 쓰지말고, 쉼표 쓰지말고 해야 동시 실행 */
+      transform: scale(1.4) translate(-5%, 5%);
     }
     100% {
-      transform: scale(2);
-      transform: translate(2%, -2%);
+      transform: scale(1.4) translate(5%, 0%);
     }
   }
 `;
 
-const TrailerBox = styled.div`
-  display: flex;
-  color: #fff;
-  position: absolute;
-  padding: 0 0 0 8vh;
+/* 시간지나면서 제목이 작아지게 하기 위해 div로 제목+줄거리 묶음 */
+const FiveSecsLater = styled.div`
+  animation: scaleTrailer 5s ease-in-out 3s forwards;
+  transform-origin: bottom left;
+  @keyframes scaleTrailer {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0.75);
+    }
+  }
 `;
 
 const MovieTitle = styled.div`
-  text-shadow: 0 0 3rem #30303080;
-  mix-blend-mode: hard-light;
-  font-size: 5vw;
+  text-shadow: 0 0 2rem #30303090;
+  /* 반응형 단위 : % rem em vw vh vmin vmax */
+  /* vmin이 축소 됐을때 제일 적절한듯 */
+  /* 좀더 업그레이드 된건 calc(?+?)형태인듯 */
+  font-size: 11vmin;
   font-weight: 800;
   letter-spacing: -4px;
   width: 100%;
+  color: white;
 `;
 
+/* Avg = movie's vote average box (평점 박스, 제목 옆에 달림!) */
 const Avg = styled.div`
   display: inline-block;
   margin: 1vw;
   letter-spacing: initial;
-  font-weight: 800;
-  font-size: 1.5vw;
-  opacity: 0.8;
+  font-size: 0.25em;
+  font-weight: 900;
   vertical-align: 3vw;
   height: 1.5vw;
   padding: 0.5vw 0;
-  border-bottom: 3px solid #fff;
   p {
     color: #fff;
     z-index: 19990;
@@ -183,13 +201,14 @@ const Avg = styled.div`
 `;
 
 const TrailerSynopsis = styled.p`
+  color: white;
   display: -webkit-box;
   overflow: hidden;
-  width: 35vw;
+  max-width: 25em;
   text-overflow: ellipsis;
   white-space: normal;
   word-wrap: break-word;
-  font-size: 1.5vw;
+  font-size: 3vmin;
   letter-spacing: -1px;
   line-height: 150%;
   text-align: left;
@@ -199,29 +218,29 @@ const TrailerSynopsis = styled.p`
   user-select: none;
 `;
 
-const Adult = styled.div`
-  width: 8vw;
+/* is Trailer movie Adult or not */
+/* ex. 일반 & 18 */
+/* sticky tag to right */
+const IsAdult = styled.div`
+  /* sticky*/
   position: absolute;
-  top: 40rem;
   right: 0;
+
   background-color: #00000066;
-  color: white;
   border-left: 3px solid #ffffff;
-  display: flex;
+  padding: 0.2em 2em 0.2em 0.2em;
+  color: white;
   div {
     ${(props) =>
       props.adult
         ? "background-color: red;"
         : "background: linear-gradient(to right, green , yellowgreen);"}
-    font-size: 1.5vw;
-    font-weight: 900;
     text-shadow: 0 0 2px #6d6d6e66;
     user-select: none;
-    display: inline-block;
     padding: 5px;
     border-radius: 4px;
-    margin: 5px;
-    letter-spacing: -2px;
+    font-weight: 900;
+    font-size: 1.5vmin;
   }
 `;
 

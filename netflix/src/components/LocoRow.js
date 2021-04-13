@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import Modal from "./Modal";
-import { _axios, axiosTMDB, _baseURL, _ytbbaseURL } from "../shared/axios";
+import { _axios, axiosTMDB } from "../shared/axios";
 
 const LocoRow = React.memo((props) => {
-  const { sectionTitle, imgPath, fetchUrl, fetchUrlTMDB, Poster } = props;
+  const { sectionTitle, fetchUrl, fetchUrlTMDB, Poster } = props;
 
   const [movies, setMovies] = useState([]);
 
@@ -22,6 +22,9 @@ const LocoRow = React.memo((props) => {
         return request;
       } else {
         const request = await axiosTMDB.get(fetchUrlTMDB);
+        /* .slick(0,10)은 데이터를 잘라서 10개만 가져올것이라는 뜻 */
+        /* 안하면 모든 데이터를 불러오기 때문에 로딩 시간이 길어짐 */
+        /* -> 근데 항상 똑같은 10가지만 불러오는거라서, array를 random으로 섞고 10가지만 추출하는 것 공부해보면 좋을듯 */
         setMovies(request.data.results.slice(0, 10));
         return request;
       }
@@ -31,8 +34,7 @@ const LocoRow = React.memo((props) => {
     fetchData();
   }, []);
 
-  // const movie;
-  console.log(movies);
+  // console.log(movies);
 
   return (
     <React.Fragment>
@@ -42,9 +44,9 @@ const LocoRow = React.memo((props) => {
           if (movies.length > 0) {
             return (
               <span>
-                {movie.poster_path != "" && Poster ? (
+                {movie.poster_path !== "" && Poster ? (
                   <Modal {...movie} Poster isRow />
-                ) : movie.backdrop_path != "" ? (
+                ) : movie.backdrop_path !== "" ? (
                   <Modal {...movie} isRow />
                 ) : (
                   ""
@@ -59,15 +61,15 @@ const LocoRow = React.memo((props) => {
 });
 
 LocoRow.defaultProps = {
-  sectionTitle: "넷플릭스 섹션 제목",
+  sectionTitle: "Title",
 };
 
 const STText = styled.span`
   color: #fff;
   font-weight: 800;
-  font-size: 1.5vw;
+  font-size: 3vmin;
   opacity: 0.85;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
   transition: 150ms ease-in-out;
   :hover {
     opacity: 1;
@@ -75,14 +77,15 @@ const STText = styled.span`
 `;
 
 const ImgWrap = styled.div`
-  padding: 2vh 0;
   display: flex;
-  white-space: nowrap;
   overflow-x: scroll;
+  overflow-y: none;
   overflow: auto;
   scroll-behavior: smooth;
-  margin-bottom: 5vh;
-  color: #fff;
+  padding: 1.2vmin 0 1.2vmin 0;
+  margin: 0 0 3vmin 0;
+
+  /* overflow-x scrollbar css */
   ::-webkit-scrollbar {
     width: 5px;
   }
@@ -90,7 +93,7 @@ const ImgWrap = styled.div`
     background: #ff000080;
     border-radius: 10px;
     background-clip: padding-box;
-    border: 5px solid transparent;
+    border: 6px solid transparent;
   }
   ::-webkit-scrollbar-track {
     background-color: transparent;

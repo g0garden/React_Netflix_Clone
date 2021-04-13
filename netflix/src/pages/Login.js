@@ -2,36 +2,22 @@ import React from "react";
 import styled from "styled-components";
 
 import { history } from "../redux/configureStore";
-import { Grid, Button, Text, Vignette } from "../elements";
+import { Grid, Button } from "../elements";
 
-import {
-  popsignup,
-  exminiposter,
-  mobile,
-  devicemockup,
-  tvmockup,
-} from "../shared/images";
+import { popsignup, mobile, devicemockup, tvmockup } from "../shared/images";
 
 const Login = (props) => {
   return (
     <React.Fragment>
       <Grid>
         <Grid is_flex>
-          <Vignette top="1">
-            <Vignette top="1">
-              <Vignette bottom="1">
-                <Vignette bottom="1">
-                  <Grid
-                    bgimg={popsignup}
-                    size="cover"
-                    back_center
-                    zIndex="-5"
-                    height="80vh"
-                  ></Grid>
-                </Vignette>
-              </Vignette>
-            </Vignette>
-          </Vignette>
+          <Grid
+            bgimg={popsignup}
+            size="cover"
+            back_center
+            zIndex="-5"
+            height="80vh"
+          ></Grid>
           <TEXT absolute>
             <div>
               <h1>

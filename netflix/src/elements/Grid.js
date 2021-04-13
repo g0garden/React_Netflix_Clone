@@ -107,6 +107,7 @@ const RootContainer = styled.div`
   position: relative;
   z-index: 0;
   background-color: black;
+  color: white;
   min-height: 80vh;
   margin: 0;
   box-sizing: border-box;

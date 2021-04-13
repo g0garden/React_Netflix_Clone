@@ -102,3 +102,12 @@ dist
 
 # TernJS port file
 .tern-port
+
+*.jar
+.gitignore
+*.log
+
+# 경로 git x
+[bB]uild/
+node_modules/
+
