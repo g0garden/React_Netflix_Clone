@@ -22,7 +22,7 @@
 🎮 back-end
 - Spring 
 - ubuntu, aws
-💎 frot-end
+💎 front-end
 - React
 - JavaScript
 - JSX
