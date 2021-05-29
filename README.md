@@ -19,10 +19,11 @@
 
 
 ### 🚀Stack
-🎮 back-end
+🎮 백엔드
 - Spring 
 - ubuntu, aws
-💎 front-end
+
+💎 프론트엔드
 - React
 - JavaScript
 - JSX
