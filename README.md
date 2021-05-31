@@ -5,7 +5,10 @@
 
 ### 🌏웹사이트 링크
 : http://netflixclonecoding.s3-website.ap-northeast-2.amazonaws.com/
+(*현재 개발했던 DB는 연결이 되어있지 않고, TMDB사이트의 오픈API로 제공받고 있는 컨텐츠만 보여집니다. 유튜브 시연영상을 참고해주시기 바랍니다)
 
+### ♥데모영상 유튜브 링크
+: https://youtu.be/zgy68Ftqzc4
 
 ### 🔍설명
 실제로 프론트와 서버간에 API를 요청하고 응답받은 데이터를 활용해 넷플릭스 메인페이지에 출력해 보았다. 프론트에서는 카테고리 별로 api를 요청하기 위해 axios라이브러리를 사용했다. 
@@ -13,9 +16,6 @@
 리액트와 스프링을 연동하여 배포까지 작업해 보았다. 
 
 ⁎⁎TMDB(TheMovieDB) 사이트에서 영화,TV 등과 같은 여러가지 컨텐츠 정보를 제공한다. Open API를 통해 정보를 제공받을 수 있다. 
-
-### ♥데모영상 유튜브 링크
-: https://youtu.be/zgy68Ftqzc4
 
 
 ### 🚀Stack
@@ -28,6 +28,7 @@
 - JavaScript
 - JSX
 - CSS
+- 
 - Styled Component
 - aws, s3
 
